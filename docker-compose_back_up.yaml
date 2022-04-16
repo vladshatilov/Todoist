@@ -6,19 +6,19 @@ services:
     volumes:
       - postgres_data_todo:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: todopostgres
-      POSTGRES_PASSWORD: todopostgres
-      POSTGRES_DB: todopostgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     restart: always
     ports:
-    - "5432:5432"
-#    env_file:
-#    - ../.env
+    - "${DB_PORT}:5432"
+    env_file:
+    - ./.env
 
 #  frontend:
-#    build: ../frontend_react/.
+#    build: ./todo-list-frontend/.
 #    volumes:
-#      - frontend:/app/result_build
+#      - frontend_todo:/app/result_build
 #    depends_on:
 #      - db
 #    ports:
@@ -28,4 +28,4 @@ services:
 
 volumes:
   postgres_data_todo:
-#  frontend:
+#  frontend_todo:

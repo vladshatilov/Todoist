@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:12.4-alpine
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data_todo2:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: todopostgres
+      POSTGRES_PASSWORD: todopostgres
+      POSTGRES_DB: todopostgres
+    restart: always
+    ports:
+#    - "${DB_PORT}:5432"
+    - "5432:5432"
+    env_file:
+    - ./.env
+  api:
+    build:
+      context: .
+    ports:
+      - "80:8000"
+#    volumes:
+#      - ./:/code
+    depends_on:
+      db:
+        condition: service_healthy
+#  frontend:
+#    image: sermalenk/skypro-front
+#    build: ./todo-list-frontend/.
+#    volumes:
+#      - frontend_todo:/app/result_build
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    ports:
+#      - "3000:3000"
+#      - "8000:8000"
+
+#  migrations:
+#    build:
+#      context: .
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#      api:
+#        condition: service_started
+#    command: >
+#      /bin/sh -c "python manage.py migrate
+#      && python manage.py loadall
+#      && python manage.py runserver 0.0.0.0:8000"
+      
+
+volumes:
+  postgres_data_todo2:
+#  django_33_finalPrj:
+#    external: true
+#  frontend_todo:
