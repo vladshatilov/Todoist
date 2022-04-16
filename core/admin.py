@@ -57,7 +57,14 @@ def view_last_login_date(obj):
 
 @admin.register(Profile)
 class AuthorAdmin(admin.ModelAdmin):
+    readonly_fields = ['last_login', 'date_joined']
     list_display = ('first_name', 'last_name', 'email', 'phone', view_last_login_date, 'date_joined',)
     list_filter = ('is_staff', 'is_active', 'is_superuser', DecadeBornListFilter, ('first_name', admin.EmptyFieldListFilter),)
     search_fields = ('first_name', 'last_name', 'email', 'username', )
     # fields = ('first_name', 'last_name')
+
+    def get_fields(self, request, obj=None):
+        fields = super(AuthorAdmin, self).get_fields(request, obj)
+        if obj:
+            fields.remove('password')
+        return fields
