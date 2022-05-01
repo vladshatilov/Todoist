@@ -68,5 +68,21 @@
       "last_name": "Петров",
       "is_active": true
     }
+  },
+  {
+    "model": "core.profile",
+    "pk": 6,
+    "fields": {
+      "email": "admin@admin.ru",
+      "password": "pbkdf2_sha256$260000$3bo3p1RBL9USUYt4njQGst$VABz0+ssAtcd6WS4s8Uf55iOlu0vLcyb9mAOPwfc9nU=",
+      "last_login": "2022-02-20 13:34:16.332479+03:00",
+      "phone": "+79775168198",
+      "role": "admin",
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "is_active": true,
+      "is_staff": true,
+      "is_superuser": true
+    }
   }
 ]

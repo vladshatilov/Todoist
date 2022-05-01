@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
+
 # from dotenv import load_dotenv
 #
 # load_dotenv()
@@ -31,13 +32,12 @@ env = environ.Env(
     DEBUG=(bool, True)
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # DEBUG = True
 DEBUG = env('DEBUG')
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
-
-
 
 ALLOWED_HOSTS = ['*']
 
@@ -109,16 +109,46 @@ SIMPLE_JWT = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': env('DB_HOST'),
-        'NAME': env('POSTGRES_NAME'),
-        'PORT': env('DB_PORT'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': 'db', #env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
+        'NAME': 'todopostgres',# env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
+        'PORT': 5432, #env('DB_PORT'),
+        'USER': 'todopostgres',# env('POSTGRES_USER'),
+        'PASSWORD': 'todopostgres'# env('POSTGRES_PASSWORD'),
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'HOST': os.environ.get("DB_HOST", 'localhost'),
+#         'NAME': os.environ.get("POSTGRES_NAME", 'todopostgres'),
+#         'PORT': os.environ.get("DB_PORT", 'todopostgres'),
+#         'USER': os.environ.get("POSTGRES_USER", 'todopostgres'),
+#         'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'todopostgres'),
+#     }
+# }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         # 'HOST': 'localhost',
+#         'HOST': 'db',
+#         'NAME': 'todopostgres',
+#         'PORT': 5432,
+#         'USER': 'todopostgres',
+#         'PASSWORD': 'todopostgres',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
