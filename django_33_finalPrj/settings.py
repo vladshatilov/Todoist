@@ -32,6 +32,7 @@ env = environ.Env(
     DEBUG=(bool, True)
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # DEBUG = True
 DEBUG = env('DEBUG')
 
@@ -116,16 +117,16 @@ SIMPLE_JWT = {
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'HOST': env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
-#         'NAME': env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
-#         'PORT': env('DB_PORT'),
-#         'USER': env('POSTGRES_USER'),
-#         'PASSWORD': env('POSTGRES_PASSWORD'),
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': 'db', #env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
+        'NAME': 'todopostgres',# env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
+        'PORT': 5432, #env('DB_PORT'),
+        'USER': 'todopostgres',# env('POSTGRES_USER'),
+        'PASSWORD': 'todopostgres'# env('POSTGRES_PASSWORD'),
+    }
+}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -136,16 +137,18 @@ SIMPLE_JWT = {
 #         'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'todopostgres'),
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
-        'NAME': 'todopostgres',
-        'PORT': 5432,
-        'USER': 'todopostgres',
-        'PASSWORD': 'todopostgres',
-    }
-}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         # 'HOST': 'localhost',
+#         'HOST': 'db',
+#         'NAME': 'todopostgres',
+#         'PORT': 5432,
+#         'USER': 'todopostgres',
+#         'PASSWORD': 'todopostgres',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
