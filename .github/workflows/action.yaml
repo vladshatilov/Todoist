@@ -12,7 +12,7 @@ jobs:
         run: docker build -t ${{ secrets.DOCKER_HUB_USER }}/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID .
       # Логинимся в докер
       - name: docker login
-        run: echo ${{ secrets.DOCKERHUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
+        run: echo ${{ secrets.DOCKER_HUB_TOKEN }} | docker login -u ${{ secrets.DOCKER_HUB_USER }} --password-stdin
       # Пушим репозиторий
       - name: docker push
         run: docker push ${{ secrets.DOCKER_HUB_USER }}/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
