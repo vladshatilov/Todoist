@@ -53,11 +53,32 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    'social_django',
     'phonenumber_field',
     'djoser',
     "corsheaders",
     "core",
 ]
+
+# SOCIAL_AUTH_JSONFIELD_ENABLED = True
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+SOCIAL_AUTH_VK_OAUTH2_KEY = '8161959'
+SOCIAL_AUTH_VK_OAUTH2_SECRET = 'DKPFYdIkvMhvHmznvHkI'
+SOCIAL_AUTH_VK_APP_USER_MODE = 2
+
+SOCIAL_AUTH_AUTHENTICATION_BACKENDS =(
+    'social_core.backends.vk.VKOAuth2',
+)
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',
+    'social_core.backends.vk.VKOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,6 +105,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -117,26 +140,26 @@ SIMPLE_JWT = {
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'db', #env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
-        'NAME': 'todopostgres',# env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
-        'PORT': 5432, #env('DB_PORT'),
-        'USER': 'todopostgres',# env('POSTGRES_USER'),
-        'PASSWORD': 'todopostgres'# env('POSTGRES_PASSWORD'),
-    }
-}
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'HOST': os.environ.get("DB_HOST", 'localhost'),
-#         'NAME': os.environ.get("POSTGRES_NAME", 'todopostgres'),
-#         'PORT': os.environ.get("DB_PORT", 'todopostgres'),
-#         'USER': os.environ.get("POSTGRES_USER", 'todopostgres'),
-#         'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'todopostgres'),
+#         'HOST': 'db', #env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
+#         'NAME': 'todopostgres',# env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
+#         'PORT': 5432, #env('DB_PORT'),
+#         'USER': 'todopostgres',# env('POSTGRES_USER'),
+#         'PASSWORD': 'todopostgres'# env('POSTGRES_PASSWORD'),
 #     }
 # }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'HOST': os.environ.get("DB_HOST", 'localhost'),
+        'NAME': os.environ.get("POSTGRES_NAME", 'todopostgres'),
+        'PORT': os.environ.get("DB_PORT", 'todopostgres'),
+        'USER': os.environ.get("POSTGRES_USER", 'todopostgres'),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'todopostgres'),
+    }
+}
 
 # DATABASES = {
 #     'default': {
@@ -159,6 +182,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 7,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',

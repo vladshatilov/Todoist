@@ -19,4 +19,6 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include("core.urls")),
+    path("login/vk-oauth2/", include("social_django.urls", namespace="social"))
+    # path('api/', include("core.urls")),
 ]

@@ -8,7 +8,7 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, email, first_name, last_name, phone,
+    def create_user(self, username, email, first_name, last_name, phone,
                     password, **extra_fields):
         # values = [email, phone]
         # field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
@@ -20,6 +20,7 @@ class UserManager(BaseUserManager):
         # extra_fields.setdefault('is_superuser', False)
 
         user = self.model(
+            username=username,
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
@@ -31,15 +32,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    # def _create_user(self, email, phone, password=None, **extra_fields):
-    #     extra_fields.setdefault('is_staff', False)
-    #     extra_fields.setdefault('is_superuser', False)
-    #     return self._create_user(email, phone, password, **extra_fields)
-
     def create_superuser(self, email, first_name, last_name, phone,
                          password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
 
         # if extra_fields.get('is_staff') is not True:
         #     raise ValueError('Superuser must have is_staff=True.')

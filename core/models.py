@@ -15,12 +15,12 @@ class Profile(AbstractUser):
     last_name = models.CharField(max_length=50, blank=True, null=True)
     role = models.CharField(max_length=15, default='user', choices=UserRoles.choices)
     is_active = models.BooleanField(default=True)
-    email = models.EmailField(unique=True, blank=False)
+    email = models.EmailField(null=False, blank=False)
     phone = PhoneNumberField(blank=False, null=False)
-    username = models.CharField(blank=True, null=True, max_length=150)
+    username = models.CharField(blank=False, null=False, unique=True, max_length=150)
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', 'email']
 
     objects = UserManager()
 

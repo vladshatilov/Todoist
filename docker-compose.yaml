@@ -14,58 +14,68 @@ services:
       POSTGRES_USER: todopostgres
       POSTGRES_PASSWORD: todopostgres
       POSTGRES_DB: todopostgres
-    restart: always
+    restart: unless-stopped
     ports:
 #    - "${DB_PORT}:5432"
     - "5432:5432"
     env_file:
     - ./.env
-  api:
-    build:
-      context: .
-    ports:
-      - "80:8000"
-#    volumes:
-#      - ./:/code
-    environment:
-      DB_HOST: db
-    depends_on:
-      db:
-        condition: service_healthy
-      migrations:
-        condition: service_started
+#    networks:
+#      - db-network
+#  api:
+#    build:
+#      context: .
+#    ports:
+#      - "8000:8000"
+##    volumes:
+##      - ./:/code
+#    environment:
+#      DB_HOST: db
+#    networks:
+#      - app-network
+#      - db-network
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#      migrations:
+#        condition: service_started
 #  frontend:
-#  context: ../docker/greenplum/
-#    dockerfile: ./Dockerfile
-#
-#    image: sermalenk/skypro-front
-#    build: ./todo-list-frontend/.
+##    image: sermalenk/skypro-front:base
+##    build: ./todo-list-frontend/.
+#    build:
+#      context: ./todo-list-frontend/
+#      dockerfile: ../todo-list-frontend/Dockerfile
 #    volumes:
 #      - frontend_todo:/app/result_build
+#    networks:
+#      - app-network
 #    depends_on:
 #      db:
 #        condition: service_healthy
 #    ports:
-#      - "3000:3000"
-#      - "8000:8000"
-
+##      - "3456:80"
+##      - "3000:41477"
+##      - "80:80"
+#      - "80:4200"
   migrations:
     build:
       context: .
+#    networks:
+#      - app-network
+#      - db-network
     depends_on:
       db:
         condition: service_healthy
-#      api:
-#        condition: service_started
     environment:
       DB_HOST: db
-#    restart: always
 #    command: python manage.py migrate
     command: >
       /bin/sh -c "python manage.py migrate
       && python manage.py loadall"
-#      && python manage.py runserver 0.0.0.0:8000"
       
+#networks:
+#  app-network:
+#  db-network:
 
 volumes:
   postgres_data_todo2:
