@@ -139,22 +139,3 @@ class PasswordAPI(UpdateAPIView):
     @method_decorator(ensure_csrf_cookie)
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
-
-# Get User API
-class UserAPI(RetrieveAPIView):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
-
-class LogOutView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def post(self, request):
-        refresh_token = request.data['refresh_token']
-        token = RefreshToken(refresh_token)
-        token.blacklist()
-        return Response(status=status.HTTP_205_RESET_CONTENT)
