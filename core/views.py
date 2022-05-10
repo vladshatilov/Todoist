@@ -139,3 +139,14 @@ class PasswordAPI(UpdateAPIView):
     @method_decorator(ensure_csrf_cookie)
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
+
+
+class LogOutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    @method_decorator(ensure_csrf_cookie)
+    def post(self, request):
+        logout(request)
+        return Response({
+            "ok": "you've logged out"
+        })
