@@ -22,41 +22,41 @@ services:
     - ./.env
 #    networks:
 #      - db-network
-#  api:
-#    build:
-#      context: .
-#    ports:
-#      - "8000:8000"
-##    volumes:
-##      - ./:/code
-#    environment:
-#      DB_HOST: db
+  api:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+#    volumes:
+#      - ./:/code
+    environment:
+      DB_HOST: db
 #    networks:
 #      - app-network
 #      - db-network
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#      migrations:
-#        condition: service_started
-#  frontend:
-##    image: sermalenk/skypro-front:base
-##    build: ./todo-list-frontend/.
-#    build:
-#      context: ./todo-list-frontend/
-#      dockerfile: ../todo-list-frontend/Dockerfile
-#    volumes:
-#      - frontend_todo:/app/result_build
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_started
+  frontend:
+#    image: sermalenk/skypro-front:base
+#    build: ./todo-list-frontend/.
+    build:
+      context: ./todo-list-frontend/
+      dockerfile: ../todo-list-frontend/Dockerfile
+    volumes:
+      - frontend_todo:/app/result_build
 #    networks:
 #      - app-network
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    ports:
-##      - "3456:80"
-##      - "3000:41477"
-##      - "80:80"
-#      - "80:4200"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+#      - "3456:80"
+#      - "3000:41477"
+      - "81:80"
+      - "80:4200"
   migrations:
     build:
       context: .
@@ -81,4 +81,4 @@ volumes:
   postgres_data_todo2:
 #  django_33_finalPrj:
 #    external: true
-#  frontend_todo:
+  frontend_todo:
