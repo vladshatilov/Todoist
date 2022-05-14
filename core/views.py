@@ -1,5 +1,6 @@
 import os
 
+from django.http import JsonResponse
 from django.shortcuts import render
 
 from django.utils.decorators import method_decorator
@@ -20,6 +21,9 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken, SlidingTo
 from core.models import Profile
 from django.contrib.auth.hashers import check_password, make_password
 
+
+def get(request):
+    return JsonResponse({"status": "ok"}, status=200)
 
 class RegisterAPI(GenericAPIView):
     serializer_class = RegisterSerializer
@@ -64,7 +68,7 @@ class LoginAPI(GenericAPIView):
             login(request, user)
             return Response({
                 "user": UserSerializer(user, context=self.get_serializer_context()).data,
-                "token": str(AccessToken.for_user(user))
+                "access_token": str(AccessToken.for_user(user))
             })
         else:
             return Response({
@@ -77,6 +81,10 @@ class ProfileAPI(RetrieveUpdateDestroyAPIView):
     permission_classes = [UserAccessPermission]
     serializer_class = UserDetailSerializer
     queryset = Profile.objects.all()
+
+    @method_decorator(ensure_csrf_cookie)
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
     @method_decorator(ensure_csrf_cookie)
     def put(self, request, *args, **kwargs):

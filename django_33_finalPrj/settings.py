@@ -39,7 +39,8 @@ DEBUG = env('DEBUG')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', ]
+APPEND_SLASH = False
 
 # Application definition
 
@@ -50,6 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
@@ -58,6 +60,7 @@ INSTALLED_APPS = [
     'djoser',
     "corsheaders",
     "core",
+    'goals',
 ]
 
 # SOCIAL_AUTH_JSONFIELD_ENABLED = True
@@ -66,16 +69,16 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = '8161959'
 SOCIAL_AUTH_VK_OAUTH2_SECRET = 'DKPFYdIkvMhvHmznvHkI'
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
 
-SOCIAL_AUTH_AUTHENTICATION_BACKENDS =(
+SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
 )
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.open_id.OpenIdAuth',
-    'social_core.backends.google.GoogleOpenId',
-    'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.google.GoogleOAuth',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.yahoo.YahooOpenId',
+    # 'social_core.backends.open_id.OpenIdAuth',
+    # 'social_core.backends.google.GoogleOpenId',
+    # 'social_core.backends.google.GoogleOAuth2',
+    # 'social_core.backends.google.GoogleOAuth',
+    # 'social_core.backends.twitter.TwitterOAuth',
+    # 'social_core.backends.yahoo.YahooOpenId',
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )

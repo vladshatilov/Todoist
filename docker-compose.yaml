@@ -1,5 +1,13 @@
 version: '3.8'
 
+x-env_in_app: &env-fields
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+#  DB_HOST: $DB_HOST
+  DB_HOST: db
+  DEBUG: 1
+
 services:
   db:
     image: postgres:12.4-alpine
@@ -11,9 +19,10 @@ services:
     volumes:
       - postgres_data_todo2:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: todopostgres
-      POSTGRES_PASSWORD: todopostgres
-      POSTGRES_DB: todopostgres
+      <<: *env-fields
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: todopostgres
+#      POSTGRES_DB: todopostgres
     restart: unless-stopped
     ports:
 #    - "${DB_PORT}:5432"
@@ -27,10 +36,11 @@ services:
       context: .
     ports:
       - "8000:8000"
-#    volumes:
-#      - ./:/code
+    volumes:
+      - ./:/code
     environment:
       DB_HOST: db
+      DEBUG: 1
 #    networks:
 #      - app-network
 #      - db-network
@@ -40,13 +50,13 @@ services:
       migrations:
         condition: service_started
   frontend:
-#    image: sermalenk/skypro-front:base
+    image: sermalenk/skypro-front:base
 #    build: ./todo-list-frontend/.
-    build:
-      context: ./todo-list-frontend/
-      dockerfile: ../todo-list-frontend/Dockerfile
-    volumes:
-      - frontend_todo:/app/result_build
+#    build:
+#      context: ./todo-list-frontend/
+#      dockerfile: ../todo-list-frontend/Dockerfile
+#    volumes:
+#      - frontend_todo:/app/result_build
 #    networks:
 #      - app-network
     depends_on:
@@ -55,8 +65,9 @@ services:
     ports:
 #      - "3456:80"
 #      - "3000:41477"
-      - "81:80"
-      - "80:4200"
+      - "80:80"
+#      - "81:80"
+#      - "80:4200"
   migrations:
     build:
       context: .
@@ -81,4 +92,4 @@ volumes:
   postgres_data_todo2:
 #  django_33_finalPrj:
 #    external: true
-  frontend_todo:
+#  frontend_todo:
