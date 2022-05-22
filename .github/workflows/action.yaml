@@ -45,13 +45,21 @@ jobs:
           # Место на виртуальной машине, куда скопируются файлы
           target: "code"
           strip_components: 1
-      - name: clone files to server
+      - name: clone nginx.conf to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           source: "nginx.conf"
+          target: "code"
+      - name: clone env to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: ".env"
           target: "code"
       # Запуск приложения через GitHub Actions
       - name: run docker-compose
