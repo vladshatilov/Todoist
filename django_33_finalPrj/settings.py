@@ -63,10 +63,31 @@ INSTALLED_APPS = [
     'goals',
 ]
 
-# SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+# Social auth
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_VK_OAUTH2_KEY = '8161959'
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'DKPFYdIkvMhvHmznvHkI'
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_KEY")
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get("SOCIAL_AUTH_VK_OAUTH2_SECRET")
+SOCIAL_AUTH_TRAILING_SLASH = False
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ["email", "photos", "notify"]
+SOCIAL_AUTH_VK_OAUTH2_WHITELISTED_DOMAINS = ['okhayatov.ga']
+SOCIAL_AUTH_VK_OAUTH2_LOGIN_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/logged-in/"
+SOCIAL_AUTH_LOGIN_ERROR_URL = "/login-error/"
+
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
 
 SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
@@ -82,6 +103,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,9 +140,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'django_33_finalPrj.wsgi.application'
 
 REST_FRAMEWORK = {
-    # "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.LimitOffsetPagination',
-    # "PAGE_SIZE": 25,
+    "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.LimitOffsetPagination',
+    "PAGE_SIZE": 5,
     "DEFAULT_AUTHENTICATION_CLASSES": [
+        'django_33_finalPrj.auth_backends.CsrfExemptSessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication'
     ]
 }
@@ -156,25 +179,15 @@ SIMPLE_JWT = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': os.environ.get("DB_HOST", 'localhost'),
-        'NAME': os.environ.get("POSTGRES_NAME", 'todopostgres'),
-        'PORT': os.environ.get("DB_PORT", 'todopostgres'),
-        'USER': os.environ.get("POSTGRES_USER", 'todopostgres'),
-        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", 'todopostgres'),
+        'HOST': os.environ.get("DB_HOST"),
+        'NAME': os.environ.get("POSTGRES_NAME"),
+        'PORT': os.environ.get("DB_PORT"),
+        'USER': os.environ.get("POSTGRES_USER"),
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD"),
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         # 'HOST': 'localhost',
-#         'HOST': 'db',
-#         'NAME': 'todopostgres',
-#         'PORT': 5432,
-#         'USER': 'todopostgres',
-#         'PASSWORD': 'todopostgres',
-#     }
-# }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -217,3 +230,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }

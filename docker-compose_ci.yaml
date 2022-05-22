@@ -1,5 +1,12 @@
 version: '3.8'
 
+x-env_in_app: &env-fields
+  POSTGRES_USER: ${POSTGRES_USER}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DB: ${POSTGRES_DB}
+  DB_HOST: db
+  DEBUG: 1
+
 services:
   db:
     image: postgres:12.4-alpine
@@ -11,62 +18,46 @@ services:
     volumes:
       - postgres_data_todo2:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: todopostgres
-      POSTGRES_PASSWORD: todopostgres
-      POSTGRES_DB: todopostgres
-    restart: always
+      <<: *env-fields
+    restart: unless-stopped
     ports:
-#    - "${DB_PORT}:5432"
     - "5432:5432"
     env_file:
     - ./.env
   api:
     image: vladshatilov/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
-      - "80:8000"
-#    volumes:
-#      - ./:/code
+      - "8000:8000"
+    volumes:
+      - ./:/code
     environment:
-      DB_HOST: db
+      <<: *env-fields
     depends_on:
       db:
         condition: service_healthy
       migrations:
         condition: service_started
-#  frontend:
-#  context: ../docker/greenplum/
-#    dockerfile: ./Dockerfile
-#
-#    image: sermalenk/skypro-front
-#    build: ./todo-list-frontend/.
-#    volumes:
-#      - frontend_todo:/app/result_build
-#    depends_on:
-#      db:
-#        condition: service_healthy
-#    ports:
-#      - "3000:3000"
-#      - "8000:8000"
-
+  frontend:
+    image: sermalenk/skypro-front:base
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "80:80"
   migrations:
     image: vladshatilov/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       db:
         condition: service_healthy
-#      api:
-#        condition: service_started
     environment:
-      DB_HOST: db
-#    restart: always
-#    command: python manage.py migrate
+      <<: *env-fields
     command: >
       /bin/sh -c "python manage.py migrate
       && python manage.py loadall"
-#      && python manage.py runserver 0.0.0.0:8000"
-
 
 volumes:
   postgres_data_todo2:
-#  django_33_finalPrj:
-#    external: true
-#  frontend_todo:

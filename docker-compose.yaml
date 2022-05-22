@@ -20,9 +20,6 @@ services:
       - postgres_data_todo2:/var/lib/postgresql/data
     environment:
       <<: *env-fields
-#      POSTGRES_USER: ${POSTGRES_USER}
-#      POSTGRES_PASSWORD: todopostgres
-#      POSTGRES_DB: todopostgres
     restart: unless-stopped
     ports:
 #    - "${DB_PORT}:5432"
@@ -51,23 +48,22 @@ services:
         condition: service_started
   frontend:
     image: sermalenk/skypro-front:base
-#    build: ./todo-list-frontend/.
 #    build:
 #      context: ./todo-list-frontend/
 #      dockerfile: ../todo-list-frontend/Dockerfile
 #    volumes:
 #      - frontend_todo:/app/result_build
+    volumes:
+      - type: bind
+        source: ./nginx.conf
+        target: /etc/nginx/conf.d/default.conf
 #    networks:
 #      - app-network
     depends_on:
       db:
         condition: service_healthy
     ports:
-#      - "3456:80"
-#      - "3000:41477"
       - "80:80"
-#      - "81:80"
-#      - "80:4200"
   migrations:
     build:
       context: .
@@ -79,7 +75,6 @@ services:
         condition: service_healthy
     environment:
       DB_HOST: db
-#    command: python manage.py migrate
     command: >
       /bin/sh -c "python manage.py migrate
       && python manage.py loadall"
