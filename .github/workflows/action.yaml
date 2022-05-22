@@ -39,7 +39,7 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          password: ${{ secrets.SSH_PASSWORD }}/etc/ssh/.sshd_config.swp
+          password: ${{ secrets.SSH_PASSWORD }}
           # Указываем, какие файлы копировать
           source: "deploy/docker-compose.yaml" #,deploy/docker_config.py"
           # Место на виртуальной машине, куда скопируются файлы
