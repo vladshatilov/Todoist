@@ -45,6 +45,14 @@ jobs:
           # Место на виртуальной машине, куда скопируются файлы
           target: "code"
           strip_components: 1
+      - name: clone files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "nginx.conf"
+          target: "code"
       # Запуск приложения через GitHub Actions
       - name: run docker-compose
         uses: appleboy/ssh-action@master
@@ -55,4 +63,5 @@ jobs:
           # Переходим в директорию и запускаем через sudo команду docker-compose up
           script: |
             cd code
-            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d
+            docker-compose up -d --force-recreate
+#            echo ${{ secrets.SSH_PASSWORD }} | sudo -S docker-compose up -d --force-recreate
