@@ -32,7 +32,7 @@ class Goal(models.Model):
     created = models.DateTimeField(verbose_name="Дата создания")
     updated = models.DateTimeField(verbose_name="Дата последнего обновления")
     title = models.CharField(verbose_name="Название", max_length=255)
-    description = models.CharField(verbose_name="Описание", null=False)
+    description = models.TextField(verbose_name="Описание", null=False)
     due_date = models.DateField(verbose_name="Дата выполнения", null=True)
     status = models.PositiveSmallIntegerField(verbose_name="Статус", choices=Status.choices, default=Status.to_do)
     priority = models.PositiveSmallIntegerField(verbose_name="Приоритет", choices=Priority.choices,
