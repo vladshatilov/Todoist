@@ -26,14 +26,10 @@ services:
     restart: unless-stopped
     ports:
     - "5432:5432"
-    env_file:
-    - ./.env
   api:
     image: vladshatilov/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     ports:
       - "8000:8000"
-    volumes:
-      - ./:/code
     environment:
       <<: *env-fields
     depends_on:
