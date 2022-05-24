@@ -8,8 +8,8 @@ from django.contrib.auth.models import (
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def create_user(self, username, email, first_name, last_name, #phone,
-                    password, **extra_fields):
+    def create_user(self, username, email, first_name=None, last_name=None, #phone,
+                    password=None, **extra_fields):
         # values = [email, phone]
         # field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
         # for field_name, value in field_value_map.items():
