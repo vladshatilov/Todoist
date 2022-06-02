@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "core",
     'goals',
+    'django_filters',
 ]
 
 
@@ -141,6 +142,7 @@ WSGI_APPLICATION = 'django_33_finalPrj.wsgi.application'
 
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     "PAGE_SIZE": 5,
     "DEFAULT_AUTHENTICATION_CLASSES": [
         'django_33_finalPrj.auth_backends.CsrfExemptSessionAuthentication',
