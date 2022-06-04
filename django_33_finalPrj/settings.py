@@ -16,9 +16,8 @@ from pathlib import Path
 import environ
 
 # from dotenv import load_dotenv
-#
 # load_dotenv()
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 AUTH_USER_MODEL = 'core.Profile'
@@ -28,15 +27,12 @@ AUTH_USER_MODEL = 'core.Profile'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 env = environ.Env(
-    # set casting, default value
     DEBUG=(bool, True)
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# DEBUG = True
 DEBUG = env('DEBUG')
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 ALLOWED_HOSTS = ['*', ]
@@ -95,16 +91,9 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
 )
 AUTHENTICATION_BACKENDS = (
-    # 'social_core.backends.open_id.OpenIdAuth',
-    # 'social_core.backends.google.GoogleOpenId',
-    # 'social_core.backends.google.GoogleOAuth2',
-    # 'social_core.backends.google.GoogleOAuth',
-    # 'social_core.backends.twitter.TwitterOAuth',
-    # 'social_core.backends.yahoo.YahooOpenId',
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-# SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -161,23 +150,6 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'HOST': 'db', #env('DB_HOST'),#os.environ.get("DB_HOST",'localhost'),
-#         'NAME': 'todopostgres',# env('POSTGRES_NAME'),#os.environ.get("POSTGRES_NAME",'todopostgres'),
-#         'PORT': 5432, #env('DB_PORT'),
-#         'USER': 'todopostgres',# env('POSTGRES_USER'),
-#         'PASSWORD': 'todopostgres'# env('POSTGRES_PASSWORD'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

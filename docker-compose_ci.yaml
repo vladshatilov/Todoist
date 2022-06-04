@@ -24,12 +24,12 @@ services:
     environment:
       <<: *env-fields
     restart: unless-stopped
-    ports:
-    - "5432:5432"
+#    ports:
+#    - "5432:5432"
   api:
     image: vladshatilov/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
-    ports:
-      - "8000:8000"
+#    ports:
+#      - "8000:8000"
     environment:
       <<: *env-fields
     depends_on:
@@ -38,7 +38,8 @@ services:
       migrations:
         condition: service_started
   frontend:
-    image: sermalenk/skypro-front:base
+#    image: sermalenk/skypro-front:base
+    image: sermalenk/skypro-front:lesson_36
     volumes:
       - type: bind
         source: ./nginx.conf

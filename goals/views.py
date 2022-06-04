@@ -72,7 +72,7 @@ class GoalListView(ListAPIView):
 
     def get_queryset(self):
         return Goal.objects.filter(
-            user=self.request.user#, category_id__in=False
+            user=self.request.user
         )
 
 class GoalView(RetrieveUpdateDestroyAPIView):
@@ -82,12 +82,6 @@ class GoalView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Goal.objects.filter(user=self.request.user)
-
-    # def perform_destroy(self, instance):
-    #     instance.is_deleted = True
-    #     instance.save()
-    #     return instance
-
 
 
     # Comment part
@@ -113,21 +107,9 @@ class GoalCommentListView(ListAPIView):
 
     def get_queryset(self):
         return Comment.objects.filter(
-            user=self.request.user#, category_id__in=False
+            user=self.request.user
         )
 
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #
-    #     queryset = queryset.order_by('-created')
-    #
-    #     page = self.paginate_queryset(queryset)
-    #     if page is not None:
-    #         serializer = self.get_serializer(page, many=True)
-    #         return self.get_paginated_response(serializer.data)
-    #
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data)
 
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
     model = Comment

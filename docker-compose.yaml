@@ -48,9 +48,11 @@ services:
       db:
         condition: service_healthy
       migrations:
-        condition: service_started
+        condition: service_completed_successfully
+#        condition: service_started
   frontend:
-    image: sermalenk/skypro-front:base
+#    image: sermalenk/skypro-front:base
+    image: sermalenk/skypro-front:lesson_36
 #    build:
 #      context: ./todo-list-frontend/
 #      dockerfile: ../todo-list-frontend/Dockerfile

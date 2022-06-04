@@ -10,12 +10,6 @@ class UserManager(BaseUserManager):
 
     def create_user(self, username, email, first_name=None, last_name=None, #phone,
                     password=None, **extra_fields):
-        # values = [email, phone]
-        # field_value_map = dict(zip(self.model.REQUIRED_FIELDS, values))
-        # for field_name, value in field_value_map.items():
-        #     if not value:
-        #         raise ValueError('The {} value must be set'.format(field_name))
-
         # extra_fields.setdefault('is_staff', False)
         # extra_fields.setdefault('is_superuser', False)
 
@@ -24,7 +18,6 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email),
             first_name=first_name,
             last_name=last_name,
-            # phone=phone,
             role='user',
             **extra_fields
         )
@@ -32,7 +25,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, #phone,
+    def create_superuser(self, email, first_name, last_name,
                          password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
@@ -47,7 +40,6 @@ class UserManager(BaseUserManager):
             email=email,
             first_name=first_name,
             last_name=last_name,
-            # phone=phone,
             role='admin',
             **extra_fields
         )

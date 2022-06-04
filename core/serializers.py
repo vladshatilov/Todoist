@@ -40,7 +40,6 @@ class RegisterSerializer(serializers.ModelSerializer):
                                            email=validated_data['email'],
                                            first_name=validated_data['first_name'],
                                            last_name=validated_data['last_name'],
-                                           # phone=validated_data['phone'],
                                            password=validated_data['password'])
         return user
 
@@ -51,7 +50,6 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
-    # email = serializers.CharField()
     password = serializers.CharField()
 
     class Meta:
@@ -67,31 +65,13 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
-    # username = serializers.CharField(allow_null=False, allow_blank=False)
-    # email = serializers.CharField()
-    # password = serializers.CharField(allow_null=False, allow_blank=False)
 
     class Meta:
         model = Profile
         fields = ('id', 'username', 'first_name', 'last_name', 'email')
-        # fields = ('username', 'password')
         extra_kwargs = {
             'id': {'read_only': True},
         }
-
-    # def update(self, request, *args, **kwargs):
-    #     # print(f'2- {request.user.username}')
-    #     email = request.data['email']
-    #     # if Profile.objects.filter(username=request.user).exists()
-    #     # instance = get_object_or_404(Profile, username=request.data.username)
-    #     # validated_data = request.data
-    #     instance.username = request.data.get('username', instance.username)
-    #     instance.first_name = request.data.get('first_name', instance.first_name)
-    #     instance.last_name = request.data.get('last_name', instance.last_name)
-    #     instance.email = request.data.get('email', instance.email)
-    #     # # instance.set_password(validated_data.get('password', instance.password))
-    #     instance.save()
-    #     return instance
 
 
 class PasswordSerializer(serializers.ModelSerializer):

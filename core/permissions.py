@@ -27,7 +27,5 @@ class IsAdminOrOwnerForSelections(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # return request.user.is_admin()
-        # print(request.user.is_superuser)
-        # print(request.user and request.user.is_authenticated and obj.owner == request.user)
         return request.user.is_superuser or request.user and request.user.is_authenticated and obj.owner == request.user
 
