@@ -52,7 +52,7 @@ services:
 #        condition: service_started
   frontend:
 #    image: sermalenk/skypro-front:base
-    image: sermalenk/skypro-front:lesson_36
+    image: sermalenk/skypro-front:lesson_37
 #    build:
 #      context: ./todo-list-frontend/
 #      dockerfile: ../todo-list-frontend/Dockerfile

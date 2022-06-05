@@ -37,11 +37,11 @@ class LoginAPI(GenericAPIView):
         print(serializer.data)
         if user is not None:
             login(request, user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-            # return Response({
-            #     "user": UserSerializer(user, context=self.get_serializer_context()).data,
-            #     "access_token": str(AccessToken.for_user(user))
-            # }, status=status.HTTP_201_CREATED)
+            # return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({
+                "user": UserSerializer(user, context=self.get_serializer_context()).data,
+                "access_token": str(AccessToken.for_user(user))
+            }, status=status.HTTP_201_CREATED)
         else:
             return Response({
                 "errors": serializer.errors
