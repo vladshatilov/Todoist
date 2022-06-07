@@ -52,7 +52,7 @@ services:
 #        condition: service_started
   frontend:
 #    image: sermalenk/skypro-front:base
-    image: sermalenk/skypro-front:lesson_37
+    image: sermalenk/skypro-front:lesson-37
 #    build:
 #      context: ./todo-list-frontend/
 #      dockerfile: ../todo-list-frontend/Dockerfile
@@ -64,6 +64,7 @@ services:
         target: /etc/nginx/conf.d/default.conf
 #    networks:
 #      - app-network
+    restart: always
     depends_on:
       db:
         condition: service_healthy

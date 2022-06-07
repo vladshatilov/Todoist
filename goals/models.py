@@ -20,11 +20,11 @@ class DatesModelMixin(models.Model):
         return super().save(*args, **kwargs)
 
 
-class UserModelMixin(models.Model):
-    class Meta:
-        abstract = True
-
-    user = models.ForeignKey(Profile, verbose_name="Автор", on_delete=models.PROTECT)
+# class UserModelMixin(models.Model):
+#     class Meta:
+#         abstract = True
+#
+#     user = models.ForeignKey(Profile, verbose_name="Автор", on_delete=models.PROTECT)
 
 
 class Board(DatesModelMixin):
@@ -67,7 +67,7 @@ class BoardParticipant(DatesModelMixin):
     )
 
 
-class GoalCategory(DatesModelMixin, UserModelMixin, models.Model):
+class GoalCategory(DatesModelMixin, models.Model):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
@@ -77,9 +77,10 @@ class GoalCategory(DatesModelMixin, UserModelMixin, models.Model):
     )
     title = models.CharField(verbose_name="Название", max_length=255)
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
+    user = models.ForeignKey(Profile, verbose_name="Автор", on_delete=models.PROTECT)
 
 
-class Goal(DatesModelMixin, UserModelMixin, models.Model):
+class Goal(DatesModelMixin, models.Model):
     class Meta:
         verbose_name = "Цель"
         verbose_name_plural = "Цели"
@@ -91,13 +92,15 @@ class Goal(DatesModelMixin, UserModelMixin, models.Model):
     priority = models.PositiveSmallIntegerField(verbose_name="Приоритет", choices=Priority.choices,
                                                 default=Priority.medium)
     category = models.ForeignKey(to=GoalCategory, related_name='category', related_query_name='categories', verbose_name='Категория', on_delete=models.CASCADE) #, blank=True, null=True,
+    user = models.ForeignKey(Profile, verbose_name="Автор", on_delete=models.PROTECT)
 
 
-class Comment(DatesModelMixin, UserModelMixin, models.Model):
+class Comment(DatesModelMixin, models.Model):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
 
     text = models.CharField(verbose_name="Название", max_length=255, null=False, )
     goal = models.ForeignKey(Goal, verbose_name="Цель", on_delete=models.CASCADE, null=False, )
+    user = models.ForeignKey(Profile, verbose_name="Автор", on_delete=models.PROTECT)
 
