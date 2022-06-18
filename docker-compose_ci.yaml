@@ -10,6 +10,7 @@ x-env_in_app: &env-fields
   SECRET_KEY: ${SECRET_KEY}
   DB_HOST: db
   DEBUG: 1
+  BOT_TOKEN: ${BOT_TOKEN}
 
 services:
   db:
@@ -64,7 +65,7 @@ services:
     volumes:
       - ./.env:/code/.env
     environment:
-      DB_HOST: db
+      <<: *env-fields
     restart: on-failure
     depends_on:
       db:
