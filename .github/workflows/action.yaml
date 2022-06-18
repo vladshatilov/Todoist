@@ -41,6 +41,7 @@ jobs:
           export SECRET_KEY="${{secrets.SECRET_KEY}}"
           export DB_HOST=${{secrets.DB_HOST}}
           export DEBUG=${{secrets.DEBUG}}
+          export BOT_TOKEN=${{secrets.BOT_TOKEN}}
           cat docker-compose_ci.yaml | envsubst > temp_deploy/docker-compose.yaml
       # Загрузка файлов на сервер
       - name: clone files to server
