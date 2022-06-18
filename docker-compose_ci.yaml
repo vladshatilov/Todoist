@@ -37,10 +37,8 @@ services:
         condition: service_healthy
       migrations:
         condition: service_completed_successfully
-#        condition: service_started
   frontend:
-#    image: sermalenk/skypro-front:base
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     volumes:
       - type: bind
         source: ./nginx.conf
@@ -61,6 +59,20 @@ services:
     command: >
       /bin/sh -c "python manage.py migrate
       && python manage.py loadall"
+  bot:
+    image: vladshatilov/todoist:$GITHUB_REF_NAME-$GITHUB_RUN_ID
+    volumes:
+      - ./.env:/code/.env
+    environment:
+      DB_HOST: db
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      /bin/sh -c "python manage.py runbot"
 
 volumes:
   postgres_data_todo2:

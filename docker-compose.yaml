@@ -52,7 +52,7 @@ services:
 #        condition: service_started
   frontend:
 #    image: sermalenk/skypro-front:base
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
 #    build:
 #      context: ./todo-list-frontend/
 #      dockerfile: ../todo-list-frontend/Dockerfile
@@ -84,7 +84,22 @@ services:
     command: >
       /bin/sh -c "python manage.py migrate
       && python manage.py loadall"
-      
+  bot:
+    build:
+      context: .
+    volumes:
+      - ./:/code
+      - ./.env:/code/.env
+    environment:
+      DB_HOST: db
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_completed_successfully
+    command: >
+      /bin/sh -c "python manage.py runbot"
 #networks:
 #  app-network:
 #  db-network:

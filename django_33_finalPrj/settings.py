@@ -34,6 +34,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 DEBUG = env('DEBUG')
 
 SECRET_KEY = env('SECRET_KEY')
+BOT_TOKEN = env('BOT_TOKEN')
 
 ALLOWED_HOSTS = ['*', ]
 APPEND_SLASH = False
@@ -57,6 +58,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "core",
     'goals',
+    'bot',
     'django_filters',
 ]
 
