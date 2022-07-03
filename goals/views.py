@@ -1,7 +1,7 @@
 from django.db import transaction
 from django.shortcuts import render
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, permissions
+from rest_framework import filters, permissions, status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
@@ -12,6 +12,7 @@ from goals.permissions import BoardPermission, GoalCategoryPermission, GoalComme
 from goals.serializers import BoardCreateSerializer, BoardListSerializer, BoardSerializer, \
     GoalCategoryCreateSerializer, GoalCategorySerializer, GoalCommentCreateSerializer, \
     GoalCommentSerializer, GoalCreateSerializer, GoalSerializer
+from goals.statuses import Status
 
 
 class GoalCategoryCreateView(CreateAPIView):
@@ -53,7 +54,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         instance.is_deleted = True
         instance.save()
-        return instance
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
     #
@@ -176,8 +177,11 @@ class BoardView(RetrieveUpdateDestroyAPIView):
         with transaction.atomic():
             instance.is_deleted = True
             instance.save()
-            instance.categories.update(is_deleted=True)
+            # instance.categories.update(is_deleted=True)
+            GoalCategory.objects.filter(board=instance).update(
+                is_deleted= True
+            )
             Goal.objects.filter(category__board=instance).update(
-                status=Goal.Status.archived
+                status=Status.archived
             )
         return instance

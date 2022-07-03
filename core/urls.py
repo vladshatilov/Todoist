@@ -7,10 +7,11 @@ from core.views import LogOutView, LoginAPI, PasswordAPI, ProfileAPI, RegisterAP
 users_router = SimpleRouter()
 users_router.register("users", UserViewSet, basename="users")
 
+app_name = 'core'
 urlpatterns = [
     path('logout/', LogOutView.as_view()),
     path('profile', ProfileAPI.as_view()),
     path('update_password', PasswordAPI.as_view()),
-    path('login', LoginAPI.as_view()),
+    path('login', LoginAPI.as_view(), name='login'),
     path('signup', RegisterAPI.as_view()),
 ]

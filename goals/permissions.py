@@ -24,16 +24,17 @@ class BoardPermission(permissions.IsAuthenticated):
 class GoalCategoryPermission(permissions.IsAuthenticated):
     message = 'You are not allowed to view or edit category in foreign boards.'
 
-    def has_permission(self, request, view):
-        if not request.user.is_authenticated:
-            return False
-        if request.method in permissions.SAFE_METHODS:
-            return BoardParticipant.objects.filter(
-                user=request.user, board=request.data.get("board",None)
-            ).exists()
-        return BoardParticipant.objects.filter(
-            user=request.user, board=request.data.get("board",None), role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer, ]
-        ).exists()
+    # def has_permission(self, request, view):
+    #     if not request.user.is_authenticated:
+    #         return False
+    #     if request.method in permissions.SAFE_METHODS:
+    #         return BoardParticipant.objects.filter(
+    #             user=request.user#, board=request.data.get("board",None)
+    #         ).exists()
+    #     return BoardParticipant.objects.filter(
+    #         user=request.user#, board=request.data.get("board",None)
+    #         , role__in=[BoardParticipant.Role.owner, BoardParticipant.Role.writer, ]
+    #     ).exists()
 
     def has_object_permission(self, request, view, obj):
         if not request.user.is_authenticated:

@@ -78,7 +78,7 @@ class Command(BaseCommand):
             self.goal_name_picking_flag = False
             self.category_name = ''
             self.tg_client.send_message(msg.chat.id, "[Successfully created goal]")
-            self.tg_client.send_message(msg.chat.id, f"[Link: http://todo-some.ml/goals/goal/{goal.id}]")
+            self.tg_client.send_message(msg.chat.id, f"[Link: http://todo-some.ml/api/goals/goal/{goal.id}]")
         elif msg.text in self.categories and len(self.categories) > 0:
             self.tg_client.send_message(msg.chat.id, "[Type new goal name]")
             self.category_name = msg.text

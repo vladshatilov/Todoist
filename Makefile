@@ -1,6 +1,9 @@
 create:
 	docker-compose up -d
 
+create_force:
+	docker-compose up -d --force-recreate #--build
+
 remove-all:
 	docker-compose down
 
